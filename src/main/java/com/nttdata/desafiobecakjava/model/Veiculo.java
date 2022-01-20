@@ -14,7 +14,7 @@ public class Veiculo {
 
     final List<Veiculo> carros = new ArrayList<>();
 
-    public Veiculo(long id, String marca, String ano, String modelo, Tipo tipo, String placa, String cor) {
+    public Veiculo(long id, String marca, String ano, String modelo,Tipo tipo , String placa, String cor) {
         this.id = id;
         this.marca = marca;
         this.ano = ano;
@@ -57,12 +57,12 @@ public class Veiculo {
         this.modelo = modelo;
     }
 
-    public Tipo getTio() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTio(Tipo tio) {
-        this.tipo = tio;
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
     }
 
     public String getPlaca() {
