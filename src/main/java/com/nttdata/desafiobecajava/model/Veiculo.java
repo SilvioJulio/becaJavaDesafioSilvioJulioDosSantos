@@ -1,4 +1,4 @@
-package com.nttdata.desafiobecajava;
+package com.nttdata.desafiobecajava.model;
 
 import java.util.ArrayList;
 import java.util.List;

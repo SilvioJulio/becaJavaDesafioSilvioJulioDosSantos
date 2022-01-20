@@ -1,4 +1,4 @@
-package com.nttdata.desafiobecajava;
+package com.nttdata.desafiobecajava.model;
 
 public class Tipo {
     public long id;
