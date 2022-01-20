@@ -1,4 +1,4 @@
-package com.nttdata.desafiobecakjava.model;
+package com.nttdata.desafiobecajava;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Veiculo {
 
     final List<Veiculo> carros = new ArrayList<>();
 
-    public Veiculo(long id, String marca, String ano, String modelo,Tipo tipo , String placa, String cor) {
+    public Veiculo(long id, String marca, String ano, String modelo, Tipo tipo, String placa, String cor) {
         this.id = id;
         this.marca = marca;
         this.ano = ano;
@@ -81,6 +81,7 @@ public class Veiculo {
         this.cor = cor;
     }
 
+
     public void adicionarCarro(Veiculo carro) {
         if (carros.contains(carro.id)) {
             System.out.println("Carro já está adicinoado ao sistema");
@@ -88,6 +89,7 @@ public class Veiculo {
             this.carros.add(new Veiculo(id, marca, ano, modelo, tipo, placa, cor));
             System.out.println("Carro adicionado ao sistema com sucesso!!!");
         }
+
 
     }
 
