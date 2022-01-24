@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Veiculo {
-    public long id;
+    public Long id;
     public String marca;
     public String ano;
     public String modelo;
@@ -12,9 +12,11 @@ public class Veiculo {
     public String placa;
     public String cor;
 
-    final List<Veiculo> carros = new ArrayList<>();
+    List<Veiculo> carros = new ArrayList<>();
 
-    public Veiculo(long id, String marca, String ano, String modelo, Tipo tipo, String placa, String cor) {
+
+
+    public Veiculo(Long id, String marca, String ano, String modelo, Tipo tipo, String placa, String cor) {
         this.id = id;
         this.marca = marca;
         this.ano = ano;
@@ -24,12 +26,14 @@ public class Veiculo {
         this.cor = cor;
     }
 
+    public Veiculo() {
+    }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -81,28 +85,17 @@ public class Veiculo {
         this.cor = cor;
     }
 
-
-    public void adicionarCarro(Veiculo carro) {
-        if (carros.contains(carro.id)) {
-            System.out.println("Carro já está adicinoado ao sistema");
-        } else {
-            this.carros.add(new Veiculo(id, marca, ano, modelo, tipo, placa, cor));
-            System.out.println("Carro adicionado ao sistema com sucesso!!!");
-        }
-
-
+    @Override
+    public String toString() {
+        return "Veiculo{" +
+                "id=" + id +
+                ", marca='" + marca + '\'' +
+                ", ano='" + ano + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", tipo=" + tipo +
+                ", placa='" + placa + '\'' +
+                ", cor='" + cor + '\'' +
+                ", carros=" + carros +
+                '}';
     }
-
-    public void pesquisarCarro() {
-
-    }
-
-    public void eiditarCarro() {
-
-    }
-
-    public void excluirCarro() {
-
-    }
-
 }
