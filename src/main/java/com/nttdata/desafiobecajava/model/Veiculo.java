@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Veiculo {
-    public Long id;
-    public String marca;
-    public String ano;
-    public String modelo;
-    public Tipo tipo;
-    public String placa;
-    public String cor;
+    private Long id;
+    private String marca;
+    private String ano;
+    private String modelo;
+    private Tipo tipo;
+    private String placa;
+    private String cor;
 
     List<Veiculo> carros = new ArrayList<>();
 

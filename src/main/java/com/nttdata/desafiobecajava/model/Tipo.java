@@ -1,9 +1,9 @@
 package com.nttdata.desafiobecajava.model;
 
 public class Tipo {
-    public long id;
-    public String tipoVeiculo;
-    public String descricao;
+    private long id;
+    private String tipoVeiculo;
+    private String descricao;
 
 
     public Tipo(long id, String tipoVeiculo, String descricao) {
