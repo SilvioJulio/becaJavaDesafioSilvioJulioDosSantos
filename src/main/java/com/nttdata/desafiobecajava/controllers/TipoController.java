@@ -1,41 +1,50 @@
 package com.nttdata.desafiobecajava.controllers;
 
-
-import com.nttdata.desafiobecajava.model.Tipo;
+import com.nttdata.desafiobecajava.models.Tipo;
+import com.nttdata.desafiobecajava.services.TipoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/tipo")
+@RequestMapping("/veiculo/tipo")
 public class TipoController {
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Tipo> criarTipo(@RequestBody Tipo tipo, @PathVariable Long id){
 
-        System.out.println(tipo);
+   @Autowired
+   private TipoService tipoService;
 
-        tipo.setId(1l);
+    @PostMapping
+    public ResponseEntity<Tipo> criar(@RequestBody Tipo tipo) {
 
-        System.out.println("Carro adicionado ao sistema com sucesso!");
+        Tipo tipoCriado = tipoService.criarTipo(tipo);
+
+        System.out.println("Tipo adicionado ao sistema com sucesso!");
 
         return ResponseEntity.created(null).body(tipo);
 
     }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Tipo> editarTipo(@RequestBody Tipo tipo,@PathVariable Long id){
+    public ResponseEntity<Tipo> editar(@RequestBody Tipo tipo, @PathVariable Long id) {
+
         tipo.setId(id);
-        System.out.println("Tipo atualizado com sucesso" +"=>"+ id);
+
+        System.out.println("Tipo codigo:"+ id + "foi atualizado com sucesso");
+
         return ResponseEntity.ok(tipo);
     }
+
     @GetMapping
-    public ResponseEntity<List<Tipo>> listarTipos(){
-        Tipo tipo1 = new Tipo(1,"Passeio","Carro 4 portas");
+    public ResponseEntity<List<Tipo>> listar() {
 
-        Tipo tipo2 = new Tipo(2,"Profissional","Carro 4 portas");
+        Tipo tipo1 = new Tipo(1l, "Passeio", "Carro 4 portas");
 
-        Tipo tipo3 = new Tipo(3,"Utilitário","Carga");
+        Tipo tipo2 = new Tipo(2l, "Hatch", "Carro 4 portas");
+
+        Tipo tipo3 = new Tipo(3l, "Utilitário", "Carga");
 
         return ResponseEntity.ok(List.of(
                 tipo1,
@@ -44,8 +53,9 @@ public class TipoController {
         ));
 
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletarTipo(@PathVariable Long id){
+    public ResponseEntity<String> deletar(@PathVariable Long id) {
         //"Tipo excluido com sucesso" + "=>"+ id
         return ResponseEntity.noContent().build();
     }

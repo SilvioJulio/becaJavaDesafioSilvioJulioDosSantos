@@ -1,19 +1,24 @@
-package com.nttdata.desafiobecajava.model;
+package com.nttdata.desafiobecajava.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+
+
+
+@Entity
 public class Veiculo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String marca;
     private String ano;
     private String modelo;
+
+    @OneToOne
     private Tipo tipo;
     private String placa;
     private String cor;
-
-    List<Veiculo> carros = new ArrayList<>();
-
 
 
     public Veiculo(Long id, String marca, String ano, String modelo, Tipo tipo, String placa, String cor) {
@@ -85,6 +90,7 @@ public class Veiculo {
         this.cor = cor;
     }
 
+
     @Override
     public String toString() {
         return "Veiculo{" +
@@ -95,7 +101,6 @@ public class Veiculo {
                 ", tipo=" + tipo +
                 ", placa='" + placa + '\'' +
                 ", cor='" + cor + '\'' +
-                ", carros=" + carros +
                 '}';
     }
 }
