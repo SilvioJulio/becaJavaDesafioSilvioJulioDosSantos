@@ -34,13 +34,6 @@ public class VeiculoController {
         return ResponseEntity.ok(carro);
     }
 
-    @GetMapping()
-    public Veiculo listarPorid() {
-
-
-        return null;
-
-    }
 
     @GetMapping()
     public ResponseEntity<List<Veiculo>> listar() {
