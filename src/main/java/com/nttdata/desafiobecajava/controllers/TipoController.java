@@ -47,6 +47,7 @@ public class TipoController {
         Tipo tipo3 = new Tipo(3l, "Utilitário", "Carga");
 
         return ResponseEntity.ok(List.of(
+
                 tipo1,
                 tipo2,
                 tipo3
@@ -56,7 +57,7 @@ public class TipoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
-        //"Tipo excluido com sucesso" + "=>"+ id
+
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,13 +1,10 @@
 package com.nttdata.desafiobecajava.models;
 
 
-
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
 
 
 @Entity
@@ -34,22 +31,27 @@ public class Tipo {
     }
 
     public void setId(Long id) {
+
         this.id = id;
     }
 
     public String getTipoVeiculo() {
+
         return tipoVeiculo;
     }
 
     public void setTipoVeiculo(String tipoVeiculo) {
+
         this.tipoVeiculo = tipoVeiculo;
     }
 
     public String getDescricao() {
+
         return descricao;
     }
 
     public void setDescricao(String descricao) {
+
         this.descricao = descricao;
     }
 }
