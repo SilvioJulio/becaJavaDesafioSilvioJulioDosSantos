@@ -1,4 +1,4 @@
-package com.nttdata.desafiobecajava.models;
+package com.nttdata.desafiobecajava.domains;
 
 
 import javax.persistence.Entity;
@@ -31,27 +31,22 @@ public class Tipo {
     }
 
     public void setId(Long id) {
-
         this.id = id;
     }
 
     public String getTipoVeiculo() {
-
         return tipoVeiculo;
     }
 
     public void setTipoVeiculo(String tipoVeiculo) {
-
         this.tipoVeiculo = tipoVeiculo;
     }
 
     public String getDescricao() {
-
         return descricao;
     }
 
     public void setDescricao(String descricao) {
-
         this.descricao = descricao;
     }
 }

@@ -1,6 +1,6 @@
 package com.nttdata.desafiobecajava.services;
 
-import com.nttdata.desafiobecajava.models.Tipo;
+import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.repositories.TipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,12 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class TipoService {
 
     @Autowired
-     private TipoRepository tipoRepository;
+    private TipoRepository tipoRepository;
 
     public Tipo criarTipo(Tipo tipo) {
 
@@ -25,29 +24,40 @@ public class TipoService {
 
     }
 
+    public Tipo obter(Long id) {
+
+        Tipo obterTipo = tipoRepository.findById(id).get();
+
+
+        System.out.println(id + "Econtrado com sucesso ");
+
+        return obterTipo;
+    }
+
     public Tipo editarTipo(Tipo tipo, Long id) {
 
-        tipo.setId(id);
+        Tipo atualizarService = this.obter(id);
+        atualizarService.setTipoVeiculo(tipo.getTipoVeiculo());
+        atualizarService.setDescricao(tipo.getDescricao());
+        this.criarTipo(atualizarService);
 
         System.out.println("Tipo atualizado com sucesso" + "=>" + id);
 
-        return tipo;
+        return atualizarService;
     }
 
     public List<Tipo> listarTipos() {
 
-        Tipo tipo1 = new Tipo(1l, "Passeio", "Carro 4 portas");
+        List<Tipo> tipoList = tipoRepository.findAll();
 
-        Tipo tipo2 = new Tipo(2l, "Profissional", "Carro 4 portas");
+        return tipoList;
+    }
 
-        Tipo tipo3 = new Tipo(3l, "Utilitário", "Carga");
+    public void deletar(Long id) {
 
-        return List.of(
+        Tipo deletarTipo = this.obter(id);
 
-                tipo1,
-                tipo2,
-                tipo3);
-
+        tipoRepository.delete(deletarTipo);
     }
 
 }

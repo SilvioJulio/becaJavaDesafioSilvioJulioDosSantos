@@ -1,6 +1,6 @@
 package com.nttdata.desafiobecajava.controllers;
 
-import com.nttdata.desafiobecajava.models.Tipo;
+import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.services.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,8 @@ import java.util.List;
 public class TipoController {
 
 
-   @Autowired
-   private TipoService tipoService;
+    @Autowired
+    private TipoService tipoService;
 
     @PostMapping
     public ResponseEntity<Tipo> criar(@RequestBody Tipo tipo) {
@@ -30,33 +30,33 @@ public class TipoController {
     @PatchMapping("/{id}")
     public ResponseEntity<Tipo> editar(@RequestBody Tipo tipo, @PathVariable Long id) {
 
-        tipo.setId(id);
+        Tipo tipoAtualizado = tipoService.editarTipo(tipo, id);
 
-        System.out.println("Tipo codigo:"+ id + "foi atualizado com sucesso");
+        System.out.println("Tipo codigo:" + id + "foi atualizado com sucesso");
 
-        return ResponseEntity.ok(tipo);
+        return ResponseEntity.ok(tipoAtualizado);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Tipo> obter(@PathVariable Long id) {
+
+        Tipo obterTipo = tipoService.obter(id);
+
+        return ResponseEntity.ok(obterTipo);
     }
 
     @GetMapping
     public ResponseEntity<List<Tipo>> listar() {
 
-        Tipo tipo1 = new Tipo(1l, "Passeio", "Carro 4 portas");
+        List<Tipo> tipoList = tipoService.listarTipos();
 
-        Tipo tipo2 = new Tipo(2l, "Hatch", "Carro 4 portas");
-
-        Tipo tipo3 = new Tipo(3l, "Utilitário", "Carga");
-
-        return ResponseEntity.ok(List.of(
-
-                tipo1,
-                tipo2,
-                tipo3
-        ));
-
+        return ResponseEntity.ok(tipoList);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
+
+        tipoService.deletar(id);
 
         return ResponseEntity.noContent().build();
     }
