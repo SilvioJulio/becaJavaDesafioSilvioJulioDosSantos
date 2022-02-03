@@ -1,45 +1,15 @@
-package com.nttdata.desafiobecajava.dtos;
+package com.nttdata.desafiobecajava.dtos.requests;
 
 import com.nttdata.desafiobecajava.domains.Tipo;
-import com.nttdata.desafiobecajava.domains.Veiculo;
 
-import java.io.Serializable;
+public class PostVeiculoDtoRequest {
 
-
-public class VeiculoDTO implements Serializable {
-
-    private static final long serialVersionUID=1l;
-
-    private Long id;
     private String marca;
     private String ano;
     private String modelo;
     private Tipo tipo;
     private String placa;
     private String cor;
-
-    public VeiculoDTO() {
-
-    }
-
-    public VeiculoDTO(Veiculo veiculo) {
-
-        this.id = veiculo.getId();
-        this.marca = veiculo.getMarca();
-        this.ano = veiculo.getAno();
-        this.modelo = veiculo.getModelo();
-        this.tipo = veiculo.getTipo();
-        this.placa = veiculo.getPlaca();
-        this.cor = veiculo.getCor();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getMarca() {
         return marca;

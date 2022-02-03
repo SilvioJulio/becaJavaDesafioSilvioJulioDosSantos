@@ -1,11 +1,11 @@
 package com.nttdata.desafiobecajava.domains;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
-
-
-
 @Entity
+@Data
 public class Veiculo {
 
     @Id

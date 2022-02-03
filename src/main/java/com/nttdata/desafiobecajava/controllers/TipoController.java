@@ -1,6 +1,9 @@
 package com.nttdata.desafiobecajava.controllers;
 
 import com.nttdata.desafiobecajava.domains.Tipo;
+import com.nttdata.desafiobecajava.dtos.requests.PostTipoDtoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.GetTipoResponse;
+import com.nttdata.desafiobecajava.dtos.responses.PostTipoDtoResponse;
 import com.nttdata.desafiobecajava.services.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,43 +15,40 @@ import java.util.List;
 @RequestMapping("/veiculo/tipo")
 public class TipoController {
 
-
     @Autowired
     private TipoService tipoService;
 
     @PostMapping
-    public ResponseEntity<Tipo> criar(@RequestBody Tipo tipo) {
+    public ResponseEntity<PostTipoDtoResponse> criar(@RequestBody PostTipoDtoRequest postTipoDtoRequest) {
 
-        Tipo tipoCriado = tipoService.criarTipo(tipo);
+        PostTipoDtoResponse tipoCriado = tipoService.criar(postTipoDtoRequest);
 
         System.out.println("Tipo adicionado ao sistema com sucesso!");
 
-        return ResponseEntity.created(null).body(tipo);
+       return ResponseEntity.created(null).body(tipoCriado);
 
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Tipo> editar(@RequestBody Tipo tipo, @PathVariable Long id) {
+    public ResponseEntity<PostTipoDtoResponse> editar(@RequestBody PostTipoDtoRequest postTipoDtoRequest,@PathVariable Long id) {
 
-        Tipo tipoAtualizado = tipoService.editarTipo(tipo, id);
+        PostTipoDtoResponse editTypo = tipoService.editar(postTipoDtoRequest,id);
 
-        System.out.println("Tipo codigo:" + id + "foi atualizado com sucesso");
-
-        return ResponseEntity.ok(tipoAtualizado);
+        return ResponseEntity.ok(editTypo);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tipo> obter(@PathVariable Long id) {
+    public ResponseEntity<GetTipoResponse> obter(@PathVariable Long id) {
 
-        Tipo obterTipo = tipoService.obter(id);
+        GetTipoResponse obterTipo = tipoService.obter(id);
 
         return ResponseEntity.ok(obterTipo);
     }
 
     @GetMapping
-    public ResponseEntity<List<Tipo>> listar() {
+    public ResponseEntity<List<GetTipoResponse>> listar() {
 
-        List<Tipo> tipoList = tipoService.listarTipos();
+        List<GetTipoResponse> tipoList = tipoService.listar();
 
         return ResponseEntity.ok(tipoList);
     }

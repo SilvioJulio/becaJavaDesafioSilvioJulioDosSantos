@@ -2,6 +2,8 @@ package com.nttdata.desafiobecajava.controllers;
 
 
 import com.nttdata.desafiobecajava.domains.Veiculo;
+import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
 import com.nttdata.desafiobecajava.services.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,13 @@ public class VeiculoController {
     private VeiculoService veiculoService;
 
     @PostMapping
-    public ResponseEntity<Veiculo> adicionar(@RequestBody Veiculo carro) {
+    public ResponseEntity<PostVeiculoDtoResponse> adicionar(@RequestBody PostVeiculoDtoRequest postVeiculoDtoRequest) {
 
-        Veiculo veiculoCrido = veiculoService.adicionarCarro(carro);
+        PostVeiculoDtoResponse veiculoCriao = veiculoService.adicionarCarro(postVeiculoDtoRequest);
 
-        return ResponseEntity.created(null).body(carro);
+        System.out.println("Carro adicionado ao sistema com sucesso!");
+
+        return ResponseEntity.created(null).body(veiculoCriao);
     }
 
     @PatchMapping("/{id}")

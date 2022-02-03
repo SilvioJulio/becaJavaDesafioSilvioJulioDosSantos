@@ -2,13 +2,14 @@ package com.nttdata.desafiobecajava.services;
 
 import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.domains.Veiculo;
+import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
 import com.nttdata.desafiobecajava.repositories.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -16,13 +17,25 @@ public class VeiculoService {
     @Autowired
     private VeiculoRepository veiculoRepository;
 
-    public Veiculo adicionarCarro(Veiculo carro) {
+    public PostVeiculoDtoResponse adicionarCarro(PostVeiculoDtoRequest postVeiculoDtoRequest) {
 
-        Veiculo veiculoSalvo = veiculoRepository.save(carro);
+        Veiculo veiculo = new Veiculo();
 
-        System.out.println(carro);
+        veiculo.setMarca(postVeiculoDtoRequest.getMarca());
+        veiculo.setModelo(postVeiculoDtoRequest.getModelo());
+        veiculo.setAno(postVeiculoDtoRequest.getAno());
+        veiculo.setCor(postVeiculoDtoRequest.getCor());
+        veiculo.setPlaca(postVeiculoDtoRequest.getPlaca());
+        veiculo.setTipo(postVeiculoDtoRequest.getTipo());
 
-        return veiculoSalvo;
+        Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
+
+        PostVeiculoDtoResponse postVeiculoDtoResponse = new PostVeiculoDtoResponse();
+
+        postVeiculoDtoResponse.setCodigo(veiculoSalvo.getId());
+        postVeiculoDtoResponse.setMensagem("Carro criado com sucesso!");
+
+        return postVeiculoDtoResponse;
     }
 
     public Veiculo obter(Long id) {
