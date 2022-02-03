@@ -1,9 +1,11 @@
 package com.nttdata.desafiobecajava.dtos.responses;
 
 public class GetTipoResponse {
+
+    private String mensagenResponse;
     private String tipoVeiculo;
     private String descricao;
-    private String mensagenResponse;
+
 
     public String getTipoVeiculo() {
         return tipoVeiculo;

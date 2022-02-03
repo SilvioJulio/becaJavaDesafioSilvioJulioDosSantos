@@ -1,14 +1,15 @@
 package com.nttdata.desafiobecajava.services;
 
-import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.domains.Veiculo;
 import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.GetVeiculoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
 import com.nttdata.desafiobecajava.repositories.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,54 +39,68 @@ public class VeiculoService {
         return postVeiculoDtoResponse;
     }
 
-    public Veiculo obter(Long id) {
+    public GetVeiculoResponse obter(Long id) {
 
         Veiculo obterVeiculo = veiculoRepository.findById(id).get();
 
-        System.out.println("Veículom de " + id + "econtrado com sucesso ");
+        GetVeiculoResponse getVeiculoResponse =  new GetVeiculoResponse();
+        getVeiculoResponse.setMarca(obterVeiculo.getMarca());
+        getVeiculoResponse.setModelo(obterVeiculo.getModelo());
+        getVeiculoResponse.setAno(obterVeiculo.getAno());
+        getVeiculoResponse.setTipo(obterVeiculo.getTipo());
+        getVeiculoResponse.setPlaca(obterVeiculo.getPlaca());
+        getVeiculoResponse.setCor(obterVeiculo.getCor());
+        getVeiculoResponse.setMensagenResponse("Carro econtrado com sucesso! ");
 
-        return obterVeiculo;
+        return getVeiculoResponse;
     }
 
-    public Veiculo eiditarCarro(Veiculo carro, Long id) {
+    public PostVeiculoDtoResponse eiditar(PostVeiculoDtoRequest postVeiculoDtoRequest, Long id) {
 
-        Veiculo atualizarVeiculo = this.obter(id);
+        Veiculo atualizarVeiculo = veiculoRepository.findById(id).get();
 
-        atualizarVeiculo.setMarca(carro.getMarca());
+        atualizarVeiculo.setMarca(postVeiculoDtoRequest.getMarca());
+        atualizarVeiculo.setModelo(postVeiculoDtoRequest.getModelo());
+        atualizarVeiculo.setAno(postVeiculoDtoRequest.getAno());
+        atualizarVeiculo.setTipo(postVeiculoDtoRequest.getTipo());
+        atualizarVeiculo.setPlaca(postVeiculoDtoRequest.getPlaca());
+        atualizarVeiculo.setCor(postVeiculoDtoRequest.getCor());
 
-        atualizarVeiculo.setAno(carro.getAno());
+        Veiculo veiculo = veiculoRepository.save(atualizarVeiculo);
 
-        atualizarVeiculo.setModelo(carro.getModelo());
+        PostVeiculoDtoResponse postVeiculoDtoResponse =new PostVeiculoDtoResponse();
+        postVeiculoDtoResponse.setCodigo(veiculo.getId());
+        postVeiculoDtoResponse.setMensagem("Carro atualizado com sucesso!" );
 
-        atualizarVeiculo.setPlaca(carro.getPlaca());
-
-        atualizarVeiculo.setCor(carro.getCor());
-
-        this.adicionarCarro(atualizarVeiculo);
-
-        System.out.println("Carro atualizado com sucesso" + " => " + id);
-
-        return atualizarVeiculo;
+        return postVeiculoDtoResponse;
     }
 
-    public List<Veiculo> listar() {
+    public List<GetVeiculoResponse> listar() {
 
         List<Veiculo> listVeiculo = veiculoRepository.findAll();
 
-        return listVeiculo;
+        List<GetVeiculoResponse> getVeiculoResponses = new ArrayList<>();
+
+        listVeiculo.forEach(veiculos ->{
+
+            GetVeiculoResponse getVeiculoResponse = new GetVeiculoResponse();
+            getVeiculoResponse.setMensagenResponse("Informações do carro:");
+            getVeiculoResponse.setModelo(veiculos.getModelo());
+            getVeiculoResponse.setMarca(veiculos.getMarca());
+            getVeiculoResponse.setAno(veiculos.getAno());
+            getVeiculoResponse.setTipo(veiculos.getTipo());
+            getVeiculoResponse.setPlaca(veiculos.getPlaca());
+            getVeiculoResponse.setCor(veiculos.getCor());
+            getVeiculoResponses.add(getVeiculoResponse);
+
+        });
+
+        return getVeiculoResponses;
 
     }
+    public void excluir(Long id) {
 
-    public Veiculo pesquisarCarro(Veiculo carro, Long id) {
-
-        carro.setId(id);
-
-        return carro;
-    }
-
-    public void excluirCarro(Long id) {
-
-        Veiculo deletarCarro = this.obter(id);
+        Veiculo deletarCarro = veiculoRepository.getById(id);
 
         veiculoRepository.delete(deletarCarro);
     }

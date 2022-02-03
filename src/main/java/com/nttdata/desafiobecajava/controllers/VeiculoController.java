@@ -1,8 +1,8 @@
 package com.nttdata.desafiobecajava.controllers;
 
 
-import com.nttdata.desafiobecajava.domains.Veiculo;
 import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.GetVeiculoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
 import com.nttdata.desafiobecajava.services.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,36 +30,33 @@ public class VeiculoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Veiculo> eiditar(@RequestBody Veiculo carro, @PathVariable Long id) {
+    public ResponseEntity<PostVeiculoDtoResponse> eiditar(@RequestBody PostVeiculoDtoRequest postVeiculoDtoRequest, @PathVariable Long id) {
 
-        Veiculo veiculoAtualizado = veiculoService.eiditarCarro(carro, id);
+         PostVeiculoDtoResponse editar = veiculoService.eiditar(postVeiculoDtoRequest,id);
 
-        System.out.println("Carro codigo:" + id + "foi atualizado com sucesso");
-
-        return ResponseEntity.ok(veiculoAtualizado);
+        return ResponseEntity.ok(editar);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Veiculo> obter(@PathVariable Long id) {
+    public ResponseEntity<GetVeiculoResponse> obter(@PathVariable Long id) {
 
-        Veiculo veiculoObter = veiculoService.obter(id);
+        GetVeiculoResponse veiculoObter = veiculoService.obter(id);
 
         return ResponseEntity.ok(veiculoObter);
     }
 
-
     @GetMapping()
-    public ResponseEntity<List<Veiculo>> listar() {
+    public ResponseEntity<List<GetVeiculoResponse>> listar() {
 
-        List<Veiculo> veiculosList = veiculoService.listar();
+        List<GetVeiculoResponse> veiculosList = veiculoService.listar();
 
         return ResponseEntity.ok(veiculosList);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluirCarro(@PathVariable Long id) {
+    public ResponseEntity<String> deletar(@PathVariable Long id) {
 
-        veiculoService.excluirCarro(id);
+        veiculoService.excluir(id);
 
         return ResponseEntity.noContent().build();
     }

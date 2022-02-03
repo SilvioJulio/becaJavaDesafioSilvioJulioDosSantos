@@ -11,13 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class TipoService {
-
-//    @Autowired
-//    private TipoService tipoService;
 
     @Autowired
     private TipoRepository tipoRepository;
@@ -46,6 +42,7 @@ public class TipoService {
         getTipoResponse.setTipoVeiculo(tipoObtido.getTipoVeiculo());
         getTipoResponse.setDescricao(tipoObtido.getDescricao());
         getTipoResponse.setMensagenResponse("Tipo encontrado com sucesso!!");
+
         return getTipoResponse;
     }
 
@@ -73,10 +70,11 @@ public class TipoService {
 
         listaTipos.forEach(tipos ->  {
             GetTipoResponse getTipoResponse = new GetTipoResponse();
+            getTipoResponse.setMensagenResponse("Informação do tipo:");
             getTipoResponse.setTipoVeiculo(tipos.getTipoVeiculo());
             getTipoResponse.setDescricao(tipos.getDescricao());
-            getTipoResponse.setMensagenResponse("Tipos lista");
             getTipoResponses.add(getTipoResponse);
+
         });
 
         return getTipoResponses;

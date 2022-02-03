@@ -1,6 +1,5 @@
 package com.nttdata.desafiobecajava.controllers;
 
-import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.dtos.requests.PostTipoDtoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.GetTipoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.PostTipoDtoResponse;
@@ -32,9 +31,9 @@ public class TipoController {
     @PatchMapping("/{id}")
     public ResponseEntity<PostTipoDtoResponse> editar(@RequestBody PostTipoDtoRequest postTipoDtoRequest,@PathVariable Long id) {
 
-        PostTipoDtoResponse editTypo = tipoService.editar(postTipoDtoRequest,id);
+        PostTipoDtoResponse editar = tipoService.editar(postTipoDtoRequest,id);
 
-        return ResponseEntity.ok(editTypo);
+        return ResponseEntity.ok(editar);
     }
 
     @GetMapping("/{id}")
