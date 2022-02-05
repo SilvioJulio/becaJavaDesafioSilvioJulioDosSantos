@@ -5,7 +5,6 @@ public class PostTipoDtoRequest {
     private String tipoVeiculo;
     private String descricao;
 
-
     public String getTipoVeiculo() {
         return tipoVeiculo;
     }

@@ -6,6 +6,7 @@ import com.nttdata.desafiobecajava.dtos.responses.PostTipoDtoResponse;
 import com.nttdata.desafiobecajava.services.TipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class TipoController {
     private TipoService tipoService;
 
     @PostMapping
-    public ResponseEntity<PostTipoDtoResponse> criar(@RequestBody PostTipoDtoRequest postTipoDtoRequest) {
+    public ResponseEntity<PostTipoDtoResponse> criar(@RequestBody  PostTipoDtoRequest postTipoDtoRequest) {
 
         PostTipoDtoResponse tipoCriado = tipoService.criar(postTipoDtoRequest);
 
@@ -29,7 +30,7 @@ public class TipoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostTipoDtoResponse> editar(@RequestBody PostTipoDtoRequest postTipoDtoRequest,@PathVariable Long id) {
+    public ResponseEntity<PostTipoDtoResponse> editar(@RequestBody  PostTipoDtoRequest postTipoDtoRequest,@PathVariable Long id) {
 
         PostTipoDtoResponse editar = tipoService.editar(postTipoDtoRequest,id);
 
@@ -37,7 +38,7 @@ public class TipoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetTipoResponse> obter(@PathVariable Long id) {
+    public ResponseEntity<GetTipoResponse> obter(@PathVariable  Long id) {
 
         GetTipoResponse obterTipo = tipoService.obter(id);
 
@@ -53,7 +54,7 @@ public class TipoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Long id) {
+    public ResponseEntity<String> deletar(@PathVariable  Long id) {
 
         tipoService.deletar(id);
 

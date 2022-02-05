@@ -5,6 +5,7 @@ import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.GetVeiculoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
 import com.nttdata.desafiobecajava.repositories.VeiculoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VeiculoService {
 
-    @Autowired
-    private VeiculoRepository veiculoRepository;
+    private final VeiculoRepository veiculoRepository;
 
-    public PostVeiculoDtoResponse adicionarCarro(PostVeiculoDtoRequest postVeiculoDtoRequest) {
+    public PostVeiculoDtoResponse adicionar(PostVeiculoDtoRequest postVeiculoDtoRequest) {
 
         Veiculo veiculo = new Veiculo();
 
@@ -98,11 +99,10 @@ public class VeiculoService {
         return getVeiculoResponses;
 
     }
-    public void excluir(Long id) {
 
-        Veiculo deletarCarro = veiculoRepository.getById(id);
+    public void deletar(Long id) {
 
-        veiculoRepository.delete(deletarCarro);
+        veiculoRepository.deleteById(id);
     }
 
 }

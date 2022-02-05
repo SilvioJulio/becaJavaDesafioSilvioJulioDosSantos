@@ -6,7 +6,6 @@ public class GetTipoResponse {
     private String tipoVeiculo;
     private String descricao;
 
-
     public String getTipoVeiculo() {
         return tipoVeiculo;
     }

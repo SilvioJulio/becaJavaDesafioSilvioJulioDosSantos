@@ -5,18 +5,20 @@ import com.nttdata.desafiobecajava.dtos.requests.PostTipoDtoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.GetTipoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.PostTipoDtoResponse;
 import com.nttdata.desafiobecajava.repositories.TipoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TipoService {
 
-    @Autowired
-    private TipoRepository tipoRepository;
+    private final TipoRepository tipoRepository;
 
     public PostTipoDtoResponse criar(PostTipoDtoRequest postTipoDtoRequest) {
 
@@ -82,9 +84,7 @@ public class TipoService {
 
     public void deletar(Long id) {
 
-        Tipo deletarTipo = tipoRepository.getById(id);
-
-        tipoRepository.delete(deletarTipo);
+        tipoRepository.deleteById(id);
     }
 
 }

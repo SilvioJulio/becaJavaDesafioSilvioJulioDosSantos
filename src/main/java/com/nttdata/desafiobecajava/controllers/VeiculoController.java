@@ -5,7 +5,7 @@ import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.GetVeiculoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
 import com.nttdata.desafiobecajava.services.VeiculoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/veiculo")
+@RequiredArgsConstructor
 public class VeiculoController {
 
-    @Autowired
-    private VeiculoService veiculoService;
+    private final VeiculoService veiculoService;
 
     @PostMapping
     public ResponseEntity<PostVeiculoDtoResponse> adicionar(@RequestBody PostVeiculoDtoRequest postVeiculoDtoRequest) {
 
-        PostVeiculoDtoResponse veiculoCriao = veiculoService.adicionarCarro(postVeiculoDtoRequest);
+        PostVeiculoDtoResponse veiculoCriao = veiculoService.adicionar(postVeiculoDtoRequest);
 
         System.out.println("Carro adicionado ao sistema com sucesso!");
 
@@ -56,7 +56,7 @@ public class VeiculoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
 
-        veiculoService.excluir(id);
+        veiculoService.deletar(id);
 
         return ResponseEntity.noContent().build();
     }
