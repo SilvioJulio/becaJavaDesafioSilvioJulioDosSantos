@@ -1,59 +1,61 @@
 package com.nttdata.desafiobecajava.controllers;
 
-import com.nttdata.desafiobecajava.dtos.requests.PostTipoDtoRequest;
-import com.nttdata.desafiobecajava.dtos.responses.GetTipoResponse;
-import com.nttdata.desafiobecajava.dtos.responses.PostTipoDtoResponse;
+import com.nttdata.desafiobecajava.dtos.requests.TipoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.TipoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperTipoToTipoResponse;
 import com.nttdata.desafiobecajava.services.TipoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/veiculo/tipo")
 public class TipoController {
 
-    @Autowired
-    private TipoService tipoService;
+
+    private final TipoService tipoService;
+    private final MapperTipoToTipoResponse mapperTipoToTipoResponse;
 
     @PostMapping
-    public ResponseEntity<PostTipoDtoResponse> criar(@RequestBody PostTipoDtoRequest postTipoDtoRequest) {
+    public ResponseEntity<TipoResponse> criar(@RequestBody TipoRequest tipoRequest) {
 
-        PostTipoDtoResponse tipoCriado = tipoService.criar(postTipoDtoRequest);
+        TipoResponse tipoResponse = tipoService.criar(tipoRequest);
 
         System.out.println("Tipo adicionado ao sistema com sucesso!");
 
-       return ResponseEntity.created(null).body(tipoCriado);
+       return ResponseEntity.created(null).body(tipoResponse);
 
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostTipoDtoResponse> editar(@RequestBody PostTipoDtoRequest postTipoDtoRequest,@PathVariable Long id) {
+    public ResponseEntity<TipoResponse> editar(@RequestBody  TipoRequest tipoRequest,@PathVariable Long id) {
 
-        PostTipoDtoResponse editar = tipoService.editar(postTipoDtoRequest,id);
+        TipoResponse editar = tipoService.editar(tipoRequest,id);
 
         return ResponseEntity.ok(editar);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetTipoResponse> obter(@PathVariable Long id) {
+    public ResponseEntity<TipoResponse> obter(@PathVariable  Long id) {
 
-        GetTipoResponse obterTipo = tipoService.obter(id);
+        TipoResponse obterTipo = tipoService.obter(id);
 
         return ResponseEntity.ok(obterTipo);
     }
 
     @GetMapping
-    public ResponseEntity<List<GetTipoResponse>> listar() {
+    public ResponseEntity<List<TipoResponse>> listar() {
 
-        List<GetTipoResponse> tipoList = tipoService.listar();
+        List<TipoResponse> tipoList = tipoService.listar();
 
         return ResponseEntity.ok(tipoList);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Long id) {
+    public ResponseEntity<String> deletar(@PathVariable  Long id) {
 
         tipoService.deletar(id);
 
