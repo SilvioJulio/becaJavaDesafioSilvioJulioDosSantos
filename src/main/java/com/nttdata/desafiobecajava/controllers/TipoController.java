@@ -22,28 +22,32 @@ public class TipoController {
     @PostMapping
     public ResponseEntity<TipoResponse> criar(@RequestBody TipoRequest tipoRequest) {
 
+        if (tipoRequest.getDescricao().equals(null) || tipoRequest.getDescricao().equals("")) {
+            throw new RuntimeException("O campo desscrição não pode está vazio ou ausente !");
+        }
         TipoResponse tipoResponse = tipoService.criar(tipoRequest);
 
         System.out.println("Tipo adicionado ao sistema com sucesso!");
 
-       return ResponseEntity.created(null).body(tipoResponse);
+        return ResponseEntity.created(null).body(tipoResponse);
 
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TipoResponse> editar(@RequestBody  TipoRequest tipoRequest,@PathVariable Long id) {
+    public ResponseEntity<TipoResponse> editar(@RequestBody TipoRequest tipoRequest, @PathVariable Long id) {
 
-        TipoResponse editar = tipoService.editar(tipoRequest,id);
+        TipoResponse editar = tipoService.editar(tipoRequest, id);
 
         return ResponseEntity.ok(editar);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoResponse> obter(@PathVariable  Long id) {
+    public ResponseEntity<TipoResponse> obter(@PathVariable Long id) {
 
         TipoResponse obterTipo = tipoService.obter(id);
 
         return ResponseEntity.ok(obterTipo);
+
     }
 
     @GetMapping
@@ -55,7 +59,7 @@ public class TipoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable  Long id) {
+    public ResponseEntity<String> deletar(@PathVariable Long id) {
 
         tipoService.deletar(id);
 
