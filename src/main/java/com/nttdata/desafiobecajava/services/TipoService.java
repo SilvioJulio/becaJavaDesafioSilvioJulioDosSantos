@@ -1,90 +1,73 @@
 package com.nttdata.desafiobecajava.services;
 
 import com.nttdata.desafiobecajava.domains.Tipo;
-import com.nttdata.desafiobecajava.dtos.requests.PostTipoDtoRequest;
-import com.nttdata.desafiobecajava.dtos.responses.GetTipoResponse;
-import com.nttdata.desafiobecajava.dtos.responses.PostTipoDtoResponse;
+import com.nttdata.desafiobecajava.dtos.requests.TipoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.TipoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperTipoAtualizar;
+import com.nttdata.desafiobecajava.mappers.MapperTipoRequestToTipo;
+import com.nttdata.desafiobecajava.mappers.MapperTipoToTipoResponse;
 import com.nttdata.desafiobecajava.repositories.TipoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TipoService {
 
-    @Autowired
-    private TipoRepository tipoRepository;
+    private final TipoRepository tipoRepository;
 
-    public PostTipoDtoResponse criar(PostTipoDtoRequest postTipoDtoRequest) {
+    private final MapperTipoRequestToTipo mapperTipoRequestToTipo;
 
-        Tipo tipo = new Tipo();
+    private  final MapperTipoToTipoResponse mapperTipoToTipoResponse;
 
-        tipo.setTipoVeiculo(postTipoDtoRequest.getTipoVeiculo());
-        tipo.setDescricao(postTipoDtoRequest.getDescricao());
+    private  final MapperTipoAtualizar mapperTipoAtualizar;
 
-        Tipo tipoSalavo = tipoRepository.save(tipo);
+    public TipoResponse criar(TipoRequest tipoRequest) {
 
-        PostTipoDtoResponse postTipoDtoResponse = new PostTipoDtoResponse();
-        postTipoDtoResponse.setIdTipo(tipoSalavo.getId());
-        postTipoDtoResponse.setMensagem("Tipo criado com sucesso!!!");
+        Tipo tipo = mapperTipoRequestToTipo.toModel(tipoRequest);
 
-        return postTipoDtoResponse;
+        tipoRepository.save(tipo);
+
+        TipoResponse tipoResponse = mapperTipoToTipoResponse.toResponse(tipo);
+
+        return tipoResponse;
     }
 
-    public GetTipoResponse obter(Long id) {
+    public TipoResponse obter(Long id) {
 
-        Tipo tipoObtido = tipoRepository.findById(id).get();
+        Tipo obterTipo = tipoRepository.findById(id).get();
 
-        GetTipoResponse getTipoResponse = new GetTipoResponse();
-        getTipoResponse.setTipoVeiculo(tipoObtido.getTipoVeiculo());
-        getTipoResponse.setDescricao(tipoObtido.getDescricao());
-        getTipoResponse.setMensagenResponse("Tipo encontrado com sucesso!!");
-
-        return getTipoResponse;
+        return mapperTipoToTipoResponse.toResponse(obterTipo);
     }
 
-    public PostTipoDtoResponse editar(PostTipoDtoRequest postTipoDtoRequest,Long id) {
+    public TipoResponse editar(TipoRequest tipoRequest,Long id) {
 
-        Tipo tipos = tipoRepository.findById(id).get();
+        Tipo tipo = tipoRepository.findById(id).get();
 
-        tipos.setTipoVeiculo(postTipoDtoRequest.getTipoVeiculo());
-        tipos.setDescricao(postTipoDtoRequest.getDescricao());
+        mapperTipoAtualizar.atualizar(tipoRequest,tipo);
 
-        Tipo tipo = tipoRepository.save(tipos);
+        tipoRepository.save(tipo);
 
-        PostTipoDtoResponse postTipoDtoResponse = new PostTipoDtoResponse();
-        postTipoDtoResponse.setIdTipo(tipo.getId());
-        postTipoDtoResponse.setMensagem("Tipo atualizado com sucesso!!!");
-
-        return postTipoDtoResponse;
+        return mapperTipoToTipoResponse.toResponse(tipo);
     }
 
-    public  List<GetTipoResponse> listar() {
+    public List<TipoResponse> listar() {
 
         List<Tipo> listaTipos = tipoRepository.findAll();
 
-        List<GetTipoResponse> getTipoResponses = new ArrayList<>();
-
-        listaTipos.forEach(tipos ->  {
-            GetTipoResponse getTipoResponse = new GetTipoResponse();
-            getTipoResponse.setMensagenResponse("Informação do tipo:");
-            getTipoResponse.setTipoVeiculo(tipos.getTipoVeiculo());
-            getTipoResponse.setDescricao(tipos.getDescricao());
-            getTipoResponses.add(getTipoResponse);
-
-        });
-
-        return getTipoResponses;
+        return listaTipos
+                .stream()
+                .map(mapperTipoToTipoResponse::toResponse)
+                .collect(Collectors.toList());
     }
 
     public void deletar(Long id) {
 
-        Tipo deletarTipo = tipoRepository.getById(id);
-
-        tipoRepository.delete(deletarTipo);
+        tipoRepository.deleteById(id);
     }
 
 }

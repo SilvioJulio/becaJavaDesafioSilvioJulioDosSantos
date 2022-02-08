@@ -1,11 +1,11 @@
 package com.nttdata.desafiobecajava.controllers;
 
 
-import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
-import com.nttdata.desafiobecajava.dtos.responses.GetVeiculoResponse;
-import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
+import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperVeiculoToVeiculoResponse;
 import com.nttdata.desafiobecajava.services.VeiculoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,41 +14,41 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/veiculo")
+@RequiredArgsConstructor
 public class VeiculoController {
 
-    @Autowired
-    private VeiculoService veiculoService;
+    private final VeiculoService veiculoService;
+
+    private final MapperVeiculoToVeiculoResponse mapperVeiculoToVeiculoResponse;
 
     @PostMapping
-    public ResponseEntity<PostVeiculoDtoResponse> adicionar(@RequestBody PostVeiculoDtoRequest postVeiculoDtoRequest) {
+    public ResponseEntity<VeiculoResponse> criar(@RequestBody VeiculoRequest veiculoRequest) {
 
-        PostVeiculoDtoResponse veiculoCriao = veiculoService.adicionarCarro(postVeiculoDtoRequest);
-
-        System.out.println("Carro adicionado ao sistema com sucesso!");
+        VeiculoResponse veiculoCriao = veiculoService.criar(veiculoRequest);
 
         return ResponseEntity.created(null).body(veiculoCriao);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostVeiculoDtoResponse> eiditar(@RequestBody PostVeiculoDtoRequest postVeiculoDtoRequest, @PathVariable Long id) {
+    public ResponseEntity<VeiculoResponse> editar(@RequestBody VeiculoRequest veiculoRequest, @PathVariable Long id) {
 
-         PostVeiculoDtoResponse editar = veiculoService.eiditar(postVeiculoDtoRequest,id);
+        VeiculoResponse editar = veiculoService.editar(veiculoRequest,id);
 
         return ResponseEntity.ok(editar);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetVeiculoResponse> obter(@PathVariable Long id) {
+    public ResponseEntity<VeiculoResponse> obter(@PathVariable Long id) {
 
-        GetVeiculoResponse veiculoObter = veiculoService.obter(id);
+        VeiculoResponse veiculoObter = veiculoService.obter(id);
 
         return ResponseEntity.ok(veiculoObter);
     }
 
     @GetMapping()
-    public ResponseEntity<List<GetVeiculoResponse>> listar() {
+    public ResponseEntity<List<VeiculoResponse>> listar() {
 
-        List<GetVeiculoResponse> veiculosList = veiculoService.listar();
+        List<VeiculoResponse> veiculosList = veiculoService.listar();
 
         return ResponseEntity.ok(veiculosList);
     }
@@ -56,7 +56,7 @@ public class VeiculoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
 
-        veiculoService.excluir(id);
+        veiculoService.deletar(id);
 
         return ResponseEntity.noContent().build();
     }

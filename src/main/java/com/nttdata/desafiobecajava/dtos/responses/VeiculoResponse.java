@@ -1,20 +1,16 @@
-package com.nttdata.desafiobecajava.domains;
+package com.nttdata.desafiobecajava.dtos.responses;
 
+import com.nttdata.desafiobecajava.domains.Tipo;
 import lombok.Data;
-import javax.persistence.*;
+
 
 @Data
-@Entity
-public class Veiculo {
+public class VeiculoResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String marca;
     private String ano;
     private String modelo;
-
-    @OneToOne
     private Tipo tipo;
     private String placa;
     private String cor;
