@@ -1,63 +1,73 @@
 package com.nttdata.desafiobecajava.services;
 
 import com.nttdata.desafiobecajava.domains.Tipo;
+import com.nttdata.desafiobecajava.dtos.requests.TipoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.TipoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperTipoAtualizar;
+import com.nttdata.desafiobecajava.mappers.MapperTipoRequestToTipo;
+import com.nttdata.desafiobecajava.mappers.MapperTipoToTipoResponse;
 import com.nttdata.desafiobecajava.repositories.TipoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TipoService {
 
-    @Autowired
-    private TipoRepository tipoRepository;
+    private final TipoRepository tipoRepository;
 
-    public Tipo criarTipo(Tipo tipo) {
+    private final MapperTipoRequestToTipo mapperTipoRequestToTipo;
 
-        Tipo tipoSalavo = tipoRepository.save(tipo);
+    private  final MapperTipoToTipoResponse mapperTipoToTipoResponse;
 
-        System.out.println("Carro adicionado ao sistema com sucesso!");
+    private  final MapperTipoAtualizar mapperTipoAtualizar;
 
-        return tipoSalavo;
+    public TipoResponse criar(TipoRequest tipoRequest) {
 
+        Tipo tipo = mapperTipoRequestToTipo.toModel(tipoRequest);
+
+        tipoRepository.save(tipo);
+
+        TipoResponse tipoResponse = mapperTipoToTipoResponse.toResponse(tipo);
+
+        return tipoResponse;
     }
 
-    public Tipo obter(Long id) {
+    public TipoResponse obter(Long id) {
 
         Tipo obterTipo = tipoRepository.findById(id).get();
 
-
-        System.out.println(id + "Econtrado com sucesso ");
-
-        return obterTipo;
+        return mapperTipoToTipoResponse.toResponse(obterTipo);
     }
 
-    public Tipo editarTipo(Tipo tipo, Long id) {
+    public TipoResponse editar(TipoRequest tipoRequest,Long id) {
 
-        Tipo atualizarService = this.obter(id);
-        atualizarService.setTipoVeiculo(tipo.getTipoVeiculo());
-        atualizarService.setDescricao(tipo.getDescricao());
-        this.criarTipo(atualizarService);
+        Tipo tipo = tipoRepository.findById(id).get();
 
-        System.out.println("Tipo atualizado com sucesso" + "=>" + id);
+        mapperTipoAtualizar.atualizar(tipoRequest,tipo);
 
-        return atualizarService;
+        tipoRepository.save(tipo);
+
+        return mapperTipoToTipoResponse.toResponse(tipo);
     }
 
-    public List<Tipo> listarTipos() {
+    public List<TipoResponse> listar() {
 
-        List<Tipo> tipoList = tipoRepository.findAll();
+        List<Tipo> listaTipos = tipoRepository.findAll();
 
-        return tipoList;
+        return listaTipos
+                .stream()
+                .map(mapperTipoToTipoResponse::toResponse)
+                .collect(Collectors.toList());
     }
 
     public void deletar(Long id) {
 
-        Tipo deletarTipo = this.obter(id);
-
-        tipoRepository.delete(deletarTipo);
+        tipoRepository.deleteById(id);
     }
 
 }

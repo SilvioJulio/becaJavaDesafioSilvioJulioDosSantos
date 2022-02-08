@@ -1,9 +1,11 @@
 package com.nttdata.desafiobecajava.controllers;
 
 
-import com.nttdata.desafiobecajava.domains.Veiculo;
+import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperVeiculoToVeiculoResponse;
 import com.nttdata.desafiobecajava.services.VeiculoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,50 +14,49 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/veiculo")
+@RequiredArgsConstructor
 public class VeiculoController {
 
-    @Autowired
-    private VeiculoService veiculoService;
+    private final VeiculoService veiculoService;
+
+    private final MapperVeiculoToVeiculoResponse mapperVeiculoToVeiculoResponse;
 
     @PostMapping
-    public ResponseEntity<Veiculo> adicionar(@RequestBody Veiculo carro) {
+    public ResponseEntity<VeiculoResponse> criar(@RequestBody VeiculoRequest veiculoRequest) {
 
-        Veiculo veiculoCrido = veiculoService.adicionarCarro(carro);
+        VeiculoResponse veiculoCriao = veiculoService.criar(veiculoRequest);
 
-        return ResponseEntity.created(null).body(carro);
+        return ResponseEntity.created(null).body(veiculoCriao);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Veiculo> eiditar(@RequestBody Veiculo carro, @PathVariable Long id) {
+    public ResponseEntity<VeiculoResponse> editar(@RequestBody VeiculoRequest veiculoRequest, @PathVariable Long id) {
 
-        Veiculo veiculoAtualizado = veiculoService.eiditarCarro(carro, id);
+        VeiculoResponse editar = veiculoService.editar(veiculoRequest,id);
 
-        System.out.println("Carro codigo:" + id + "foi atualizado com sucesso");
-
-        return ResponseEntity.ok(veiculoAtualizado);
+        return ResponseEntity.ok(editar);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Veiculo> obter(@PathVariable Long id) {
+    public ResponseEntity<VeiculoResponse> obter(@PathVariable Long id) {
 
-        Veiculo veiculoObter = veiculoService.obter(id);
+        VeiculoResponse veiculoObter = veiculoService.obter(id);
 
         return ResponseEntity.ok(veiculoObter);
     }
 
-
     @GetMapping()
-    public ResponseEntity<List<Veiculo>> listar() {
+    public ResponseEntity<List<VeiculoResponse>> listar() {
 
-        List<Veiculo> veiculosList = veiculoService.listar();
+        List<VeiculoResponse> veiculosList = veiculoService.listar();
 
         return ResponseEntity.ok(veiculosList);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluirCarro(@PathVariable Long id) {
+    public ResponseEntity<String> deletar(@PathVariable Long id) {
 
-        veiculoService.excluirCarro(id);
+        veiculoService.deletar(id);
 
         return ResponseEntity.noContent().build();
     }

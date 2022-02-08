@@ -1,80 +1,73 @@
 package com.nttdata.desafiobecajava.services;
 
-import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.domains.Veiculo;
+import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperAtualizarVeiculo;
+import com.nttdata.desafiobecajava.mappers.MapperVeiculoRequestToVeiculo;
+import com.nttdata.desafiobecajava.mappers.MapperVeiculoToVeiculoResponse;
 import com.nttdata.desafiobecajava.repositories.VeiculoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class VeiculoService {
 
-    @Autowired
-    private VeiculoRepository veiculoRepository;
+    private final VeiculoRepository veiculoRepository;
 
-    public Veiculo adicionarCarro(Veiculo carro) {
+    private  final MapperVeiculoRequestToVeiculo mapperVeiculoRequestToVeiculo;
 
-        Veiculo veiculoSalvo = veiculoRepository.save(carro);
+    private final MapperVeiculoToVeiculoResponse mapperVeiculoToVeiculoResponse;
 
-        System.out.println(carro);
+    private final MapperAtualizarVeiculo mapperAtualizarVeiculo;
 
-        return veiculoSalvo;
+    public VeiculoResponse criar(VeiculoRequest veiculoRequest) {
+
+        Veiculo veiculo = mapperVeiculoRequestToVeiculo.toModel(veiculoRequest) ;
+
+        veiculoRepository.save(veiculo);
+
+        VeiculoResponse veiculoResponse = mapperVeiculoToVeiculoResponse.toResponse(veiculo);
+
+        return veiculoResponse;
     }
 
-    public Veiculo obter(Long id) {
+    public VeiculoResponse obter(Long id) {
 
         Veiculo obterVeiculo = veiculoRepository.findById(id).get();
 
-        System.out.println("Veículom de " + id + "econtrado com sucesso ");
-
-        return obterVeiculo;
+        return mapperVeiculoToVeiculoResponse.toResponse(obterVeiculo);
     }
 
-    public Veiculo eiditarCarro(Veiculo carro, Long id) {
+    public VeiculoResponse editar(VeiculoRequest veiculoRequest, Long id) {
 
-        Veiculo atualizarVeiculo = this.obter(id);
+        Veiculo atualizarVeiculo = veiculoRepository.findById(id).get();
 
-        atualizarVeiculo.setMarca(carro.getMarca());
+        mapperAtualizarVeiculo.atualizarVeiculo(veiculoRequest,atualizarVeiculo);
 
-        atualizarVeiculo.setAno(carro.getAno());
+        veiculoRepository.save(atualizarVeiculo);
 
-        atualizarVeiculo.setModelo(carro.getModelo());
-
-        atualizarVeiculo.setPlaca(carro.getPlaca());
-
-        atualizarVeiculo.setCor(carro.getCor());
-
-        this.adicionarCarro(atualizarVeiculo);
-
-        System.out.println("Carro atualizado com sucesso" + " => " + id);
-
-        return atualizarVeiculo;
+        return mapperVeiculoToVeiculoResponse.toResponse(atualizarVeiculo);
     }
 
-    public List<Veiculo> listar() {
+    public List<VeiculoResponse> listar() {
 
         List<Veiculo> listVeiculo = veiculoRepository.findAll();
 
-        return listVeiculo;
-
+        return  listVeiculo
+                .stream()
+                .map(mapperVeiculoToVeiculoResponse::toResponse)
+                .collect(Collectors.toList());
     }
 
-    public Veiculo pesquisarCarro(Veiculo carro, Long id) {
+    public void deletar(Long id) {
 
-        carro.setId(id);
-
-        return carro;
-    }
-
-    public void excluirCarro(Long id) {
-
-        Veiculo deletarCarro = this.obter(id);
-
-        veiculoRepository.delete(deletarCarro);
+        veiculoRepository.deleteById(id);
     }
 
 }
