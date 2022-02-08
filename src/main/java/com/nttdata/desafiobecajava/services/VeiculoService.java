@@ -1,17 +1,18 @@
 package com.nttdata.desafiobecajava.services;
 
 import com.nttdata.desafiobecajava.domains.Veiculo;
-import com.nttdata.desafiobecajava.dtos.requests.PostVeiculoDtoRequest;
-import com.nttdata.desafiobecajava.dtos.responses.GetVeiculoResponse;
-import com.nttdata.desafiobecajava.dtos.responses.PostVeiculoDtoResponse;
+import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
+import com.nttdata.desafiobecajava.mappers.MapperAtualizarVeiculo;
+import com.nttdata.desafiobecajava.mappers.MapperVeiculoRequestToVeiculo;
+import com.nttdata.desafiobecajava.mappers.MapperVeiculoToVeiculoResponse;
 import com.nttdata.desafiobecajava.repositories.VeiculoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,85 +20,49 @@ public class VeiculoService {
 
     private final VeiculoRepository veiculoRepository;
 
-    public PostVeiculoDtoResponse adicionar(PostVeiculoDtoRequest postVeiculoDtoRequest) {
+    private  final MapperVeiculoRequestToVeiculo mapperVeiculoRequestToVeiculo;
 
-        Veiculo veiculo = new Veiculo();
+    private final MapperVeiculoToVeiculoResponse mapperVeiculoToVeiculoResponse;
 
-        veiculo.setMarca(postVeiculoDtoRequest.getMarca());
-        veiculo.setModelo(postVeiculoDtoRequest.getModelo());
-        veiculo.setAno(postVeiculoDtoRequest.getAno());
-        veiculo.setCor(postVeiculoDtoRequest.getCor());
-        veiculo.setPlaca(postVeiculoDtoRequest.getPlaca());
-        veiculo.setTipo(postVeiculoDtoRequest.getTipo());
+    private final MapperAtualizarVeiculo mapperAtualizarVeiculo;
 
-        Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
+    public VeiculoResponse criar(VeiculoRequest veiculoRequest) {
 
-        PostVeiculoDtoResponse postVeiculoDtoResponse = new PostVeiculoDtoResponse();
+        Veiculo veiculo = mapperVeiculoRequestToVeiculo.toModel(veiculoRequest) ;
 
-        postVeiculoDtoResponse.setCodigo(veiculoSalvo.getId());
-        postVeiculoDtoResponse.setMensagem("Carro criado com sucesso!");
+        veiculoRepository.save(veiculo);
 
-        return postVeiculoDtoResponse;
+        VeiculoResponse veiculoResponse = mapperVeiculoToVeiculoResponse.toResponse(veiculo);
+
+        return veiculoResponse;
     }
 
-    public GetVeiculoResponse obter(Long id) {
+    public VeiculoResponse obter(Long id) {
 
         Veiculo obterVeiculo = veiculoRepository.findById(id).get();
 
-        GetVeiculoResponse getVeiculoResponse =  new GetVeiculoResponse();
-        getVeiculoResponse.setMarca(obterVeiculo.getMarca());
-        getVeiculoResponse.setModelo(obterVeiculo.getModelo());
-        getVeiculoResponse.setAno(obterVeiculo.getAno());
-        getVeiculoResponse.setTipo(obterVeiculo.getTipo());
-        getVeiculoResponse.setPlaca(obterVeiculo.getPlaca());
-        getVeiculoResponse.setCor(obterVeiculo.getCor());
-        getVeiculoResponse.setMensagenResponse("Carro econtrado com sucesso! ");
-
-        return getVeiculoResponse;
+        return mapperVeiculoToVeiculoResponse.toResponse(obterVeiculo);
     }
 
-    public PostVeiculoDtoResponse eiditar(PostVeiculoDtoRequest postVeiculoDtoRequest, Long id) {
+    public VeiculoResponse editar(VeiculoRequest veiculoRequest, Long id) {
 
         Veiculo atualizarVeiculo = veiculoRepository.findById(id).get();
 
-        atualizarVeiculo.setMarca(postVeiculoDtoRequest.getMarca());
-        atualizarVeiculo.setModelo(postVeiculoDtoRequest.getModelo());
-        atualizarVeiculo.setAno(postVeiculoDtoRequest.getAno());
-        atualizarVeiculo.setTipo(postVeiculoDtoRequest.getTipo());
-        atualizarVeiculo.setPlaca(postVeiculoDtoRequest.getPlaca());
-        atualizarVeiculo.setCor(postVeiculoDtoRequest.getCor());
+        mapperAtualizarVeiculo.atualizarVeiculo(veiculoRequest,atualizarVeiculo);
 
-        Veiculo veiculo = veiculoRepository.save(atualizarVeiculo);
+        veiculoRepository.save(atualizarVeiculo);
 
-        PostVeiculoDtoResponse postVeiculoDtoResponse =new PostVeiculoDtoResponse();
-        postVeiculoDtoResponse.setCodigo(veiculo.getId());
-        postVeiculoDtoResponse.setMensagem("Carro atualizado com sucesso!" );
-
-        return postVeiculoDtoResponse;
+        return mapperVeiculoToVeiculoResponse.toResponse(atualizarVeiculo);
     }
 
-    public List<GetVeiculoResponse> listar() {
+    public List<VeiculoResponse> listar() {
 
         List<Veiculo> listVeiculo = veiculoRepository.findAll();
 
-        List<GetVeiculoResponse> getVeiculoResponses = new ArrayList<>();
-
-        listVeiculo.forEach(veiculos ->{
-
-            GetVeiculoResponse getVeiculoResponse = new GetVeiculoResponse();
-            getVeiculoResponse.setMensagenResponse("Informações do carro:");
-            getVeiculoResponse.setModelo(veiculos.getModelo());
-            getVeiculoResponse.setMarca(veiculos.getMarca());
-            getVeiculoResponse.setAno(veiculos.getAno());
-            getVeiculoResponse.setTipo(veiculos.getTipo());
-            getVeiculoResponse.setPlaca(veiculos.getPlaca());
-            getVeiculoResponse.setCor(veiculos.getCor());
-            getVeiculoResponses.add(getVeiculoResponse);
-
-        });
-
-        return getVeiculoResponses;
-
+        return  listVeiculo
+                .stream()
+                .map(mapperVeiculoToVeiculoResponse::toResponse)
+                .collect(Collectors.toList());
     }
 
     public void deletar(Long id) {
