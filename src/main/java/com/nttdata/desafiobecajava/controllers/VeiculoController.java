@@ -3,12 +3,14 @@ package com.nttdata.desafiobecajava.controllers;
 
 import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
+import com.nttdata.desafiobecajava.exception.DadosVazioNullPointerException;
 import com.nttdata.desafiobecajava.mappers.MapperVeiculoToVeiculoResponse;
 import com.nttdata.desafiobecajava.services.VeiculoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,7 +24,14 @@ public class VeiculoController {
     private final MapperVeiculoToVeiculoResponse mapperVeiculoToVeiculoResponse;
 
     @PostMapping
-    public ResponseEntity<VeiculoResponse> criar(@RequestBody VeiculoRequest veiculoRequest) {
+    public ResponseEntity<VeiculoResponse> criar(@RequestBody @Valid VeiculoRequest veiculoRequest) {
+
+        if (veiculoRequest.getPlaca()==null|| veiculoRequest.getPlaca().equals("")||
+                veiculoRequest.getModelo()==null||veiculoRequest.getModelo().equals("")){
+
+            throw new DadosVazioNullPointerException("Os campos placa do carro ou moodelo não pode está nulo ou sem informação ");
+
+        }
 
         VeiculoResponse veiculoCriao = veiculoService.criar(veiculoRequest);
 
