@@ -21,8 +21,9 @@ public class Veiculo {
     @NotBlank(message = "O Campo modelo não pode está ausente ou em branco!")
     private String modelo;
 
-    @OneToOne
+
     @NotEmpty
+    @OneToOne
     @NotBlank(message = "O Campo tipo não pode está ausente, tem ligação com dados do veículo!")
     private Tipo tipo;
     private String placa;

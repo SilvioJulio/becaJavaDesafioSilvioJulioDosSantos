@@ -3,7 +3,7 @@ package com.nttdata.desafiobecajava.dtos.requests;
 import com.nttdata.desafiobecajava.domains.Tipo;
 import lombok.Data;
 
-import javax.persistence.OneToOne;
+
 
 @Data
 public class VeiculoRequest {

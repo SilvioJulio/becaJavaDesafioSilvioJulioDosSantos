@@ -5,6 +5,7 @@ import com.nttdata.desafiobecajava.dtos.requests.TipoRequest;
 import org.mapstruct.Mapper;
 
 
+
 @Mapper
 public interface MapperTipoRequestToTipo {
 

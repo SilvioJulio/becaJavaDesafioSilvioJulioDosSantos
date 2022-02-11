@@ -2,6 +2,7 @@ package com.nttdata.desafiobecajava.domains;
 
 
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +18,9 @@ public class Tipo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
     @NotBlank(message = "Valor do campo precisa está preenchido!")
     private String tipoVeiculo;
 
-    @NotEmpty
     @NotBlank(message = "Valor do campo precisa está preenchido!")
     private String descricao;
 
