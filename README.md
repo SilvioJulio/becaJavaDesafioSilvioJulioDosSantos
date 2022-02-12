@@ -6,7 +6,7 @@ No projeto serão usada as seguinte tecnologias no desenvolvimento desse projeto
 ### Diagrama de classes
 ![](img/img_diagrama_class.png)
 
-###Objetivo do projeto
+### Objetivo do projeto
 Aplicação como visa manter a segurança de qualquer veículo venha acessar um determinado local que seja restrito sua entrada, ao ser adicionado informações do veículo da sua placa, modelo, cor , marca e tipo, estará na base de dados daquele estabelecimento para tranquilidade dos clientes e das empresas.  
 ### Tecnologia aplicada:
 * Java versão 11
