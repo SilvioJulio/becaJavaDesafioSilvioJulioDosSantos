@@ -1,5 +1,7 @@
 package com.nttdata.desafiobecajava.services;
 
+
+import com.nttdata.desafiobecajava.domains.Tipo;
 import com.nttdata.desafiobecajava.domains.Veiculo;
 import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
@@ -26,9 +28,11 @@ public class VeiculoService {
 
     private final MapperAtualizarVeiculo mapperAtualizarVeiculo;
 
+
     public VeiculoResponse criar(VeiculoRequest veiculoRequest) {
 
         Veiculo veiculo = mapperVeiculoRequestToVeiculo.toModel(veiculoRequest) ;
+
 
         veiculoRepository.save(veiculo);
 

@@ -33,9 +33,9 @@ public class VeiculoController {
 
         }
 
-        VeiculoResponse veiculoCriao = veiculoService.criar(veiculoRequest);
+        VeiculoResponse veiculoCriado = veiculoService.criar(veiculoRequest);
 
-        return ResponseEntity.created(null).body(veiculoCriao);
+        return ResponseEntity.created(null).body(veiculoCriado);
     }
 
     @PatchMapping("/{id}")

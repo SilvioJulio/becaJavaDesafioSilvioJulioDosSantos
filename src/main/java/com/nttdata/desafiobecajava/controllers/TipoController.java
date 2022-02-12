@@ -19,7 +19,9 @@ public class TipoController {
 
 
     private final TipoService tipoService;
+
     private final MapperTipoToTipoResponse mapperTipoToTipoResponse;
+
 
     @PostMapping
     public ResponseEntity<TipoResponse> criar(@RequestBody @Valid TipoRequest tipoRequest) {
@@ -28,11 +30,11 @@ public class TipoController {
 
             throw new DadosVazioNullPointerException("Os campos tipoVeículo ou descrição, não podem está vazio ou ausente !");
         }
-        TipoResponse tipoResponse = tipoService.criar(tipoRequest);
 
-        System.out.println("Tipo adicionado ao sistema com sucesso!");
+        TipoResponse tipoCriado = tipoService.criar(tipoRequest);
 
-        return ResponseEntity.created(null).body(tipoResponse);
+
+        return ResponseEntity.created(null).body(tipoCriado);
 
     }
 
@@ -56,9 +58,9 @@ public class TipoController {
     @GetMapping
     public ResponseEntity<List<TipoResponse>> listar() {
 
-        List<TipoResponse> tipoList = tipoService.listar();
+        List<TipoResponse> listTipo = tipoService.listar();
 
-        return ResponseEntity.ok(tipoList);
+        return ResponseEntity.ok(listTipo);
     }
 
     @DeleteMapping("/{id}")

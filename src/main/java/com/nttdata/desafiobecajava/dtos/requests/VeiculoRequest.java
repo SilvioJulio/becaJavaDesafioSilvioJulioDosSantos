@@ -6,7 +6,7 @@ import lombok.Data;
 
 
 @Data
-public class VeiculoRequest {
+public class VeiculoRequest  {
 
     private String marca;
     private String ano;
