@@ -2,12 +2,14 @@ package com.nttdata.desafiobecajava.controllers;
 
 import com.nttdata.desafiobecajava.dtos.requests.TipoRequest;
 import com.nttdata.desafiobecajava.dtos.responses.TipoResponse;
+import com.nttdata.desafiobecajava.exception.DadosVazioNullPointerException;
 import com.nttdata.desafiobecajava.mappers.MapperTipoToTipoResponse;
 import com.nttdata.desafiobecajava.services.TipoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,10 +22,11 @@ public class TipoController {
     private final MapperTipoToTipoResponse mapperTipoToTipoResponse;
 
     @PostMapping
-    public ResponseEntity<TipoResponse> criar(@RequestBody TipoRequest tipoRequest) {
+    public ResponseEntity<TipoResponse> criar(@RequestBody @Valid TipoRequest tipoRequest) {
 
-        if (tipoRequest.getDescricao().equals(null) || tipoRequest.getDescricao().equals("")) {
-            throw new RuntimeException("O campo desscrição não pode está vazio ou ausente !");
+        if (tipoRequest.getDescricao()==null || tipoRequest.getDescricao().equals("")) {
+
+            throw new DadosVazioNullPointerException("Os campos tipoVeículo ou descrição, não podem está vazio ou ausente !");
         }
         TipoResponse tipoResponse = tipoService.criar(tipoRequest);
 
