@@ -2,6 +2,8 @@ package com.nttdata.desafiobecajava.dtos.responses;
 
 import lombok.Data;
 
+import javax.persistence.Column;
+
 @Data
 public class TipoResponse {
 

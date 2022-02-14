@@ -7,10 +7,8 @@ import com.nttdata.desafiobecajava.mappers.MapperTipoAtualizar;
 import com.nttdata.desafiobecajava.mappers.MapperTipoRequestToTipo;
 import com.nttdata.desafiobecajava.mappers.MapperTipoToTipoResponse;
 import com.nttdata.desafiobecajava.repositories.TipoRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,13 +16,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TipoService {
 
-    private final TipoRepository tipoRepository;
+    private final  TipoRepository tipoRepository;
 
     private final MapperTipoRequestToTipo mapperTipoRequestToTipo;
 
     private  final MapperTipoToTipoResponse mapperTipoToTipoResponse;
 
     private  final MapperTipoAtualizar mapperTipoAtualizar;
+
 
     public TipoResponse criar(TipoRequest tipoRequest) {
 

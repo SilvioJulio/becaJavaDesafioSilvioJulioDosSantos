@@ -26,7 +26,9 @@ public class VeiculoService {
 
     private final MapperAtualizarVeiculo mapperAtualizarVeiculo;
 
+
     public VeiculoResponse criar(VeiculoRequest veiculoRequest) {
+
 
         Veiculo veiculo = mapperVeiculoRequestToVeiculo.toModel(veiculoRequest) ;
 
