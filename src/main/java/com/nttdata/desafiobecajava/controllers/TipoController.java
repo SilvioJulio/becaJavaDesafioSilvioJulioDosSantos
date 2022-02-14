@@ -26,7 +26,7 @@ public class TipoController {
     @PostMapping
     public ResponseEntity<TipoResponse> criar(@RequestBody @Valid TipoRequest tipoRequest) {
 
-        if (tipoRequest.getDescricao()==null || tipoRequest.getDescricao().equals("")) {
+        if (tipoRequest.getDescricao() == null || tipoRequest.getDescricao().equals("")) {
 
             throw new DadosVazioNullPointerException("Os campos tipoVeículo ou descrição, não podem está vazio ou ausente !");
         }
@@ -68,6 +68,6 @@ public class TipoController {
 
         tipoService.deletar(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Tipo com ID=> " + "[" + id + "]" + " foi excluído com sucesso!");
     }
 }

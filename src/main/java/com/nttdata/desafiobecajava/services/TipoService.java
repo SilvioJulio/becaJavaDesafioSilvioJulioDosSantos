@@ -9,8 +9,6 @@ import com.nttdata.desafiobecajava.mappers.MapperTipoToTipoResponse;
 import com.nttdata.desafiobecajava.repositories.TipoRepository;
 import lombok.RequiredArgsConstructor;;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -2,6 +2,7 @@ package com.nttdata.desafiobecajava.controllers;
 
 
 import com.nttdata.desafiobecajava.dtos.requests.VeiculoRequest;
+import com.nttdata.desafiobecajava.dtos.responses.TipoResponse;
 import com.nttdata.desafiobecajava.dtos.responses.VeiculoResponse;
 import com.nttdata.desafiobecajava.exception.DadosVazioNullPointerException;
 import com.nttdata.desafiobecajava.mappers.MapperVeiculoToVeiculoResponse;
@@ -26,8 +27,8 @@ public class VeiculoController {
     @PostMapping
     public ResponseEntity<VeiculoResponse> criar(@RequestBody @Valid VeiculoRequest veiculoRequest) {
 
-        if (veiculoRequest.getPlaca()==null|| veiculoRequest.getPlaca().equals("")||
-                veiculoRequest.getModelo()==null||veiculoRequest.getModelo().equals("")){
+        if (veiculoRequest.getPlaca() == null || veiculoRequest.getPlaca().equals("") ||
+                veiculoRequest.getModelo() == null || veiculoRequest.getModelo().equals("")) {
 
             throw new DadosVazioNullPointerException("Os campos placa do carro ou moodelo não pode está nulo ou sem informação ");
 
@@ -35,13 +36,14 @@ public class VeiculoController {
 
         VeiculoResponse veiculoCriado = veiculoService.criar(veiculoRequest);
 
+
         return ResponseEntity.created(null).body(veiculoCriado);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<VeiculoResponse> editar(@RequestBody VeiculoRequest veiculoRequest, @PathVariable Long id) {
 
-        VeiculoResponse editar = veiculoService.editar(veiculoRequest,id);
+        VeiculoResponse editar = veiculoService.editar(veiculoRequest, id);
 
         return ResponseEntity.ok(editar);
     }
@@ -67,7 +69,7 @@ public class VeiculoController {
 
         veiculoService.deletar(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Veiculo com ID=> " + "[" + id + "]" + " foi excluído com sucesso!");
     }
 }
 
