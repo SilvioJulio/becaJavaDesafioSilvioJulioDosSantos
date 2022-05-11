@@ -26,7 +26,7 @@ Aplicação visa manter a segurança de qualquer veículo venha acessar um deter
 * Spring Boot
 * IntelliJ IDEA
 * Postman
-* Doker
+* Docker
 * MySql
 
 ![](img/tecnologia_aplicada.png)
